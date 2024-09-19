@@ -36,7 +36,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MultipleContainers } from "@components/dnd/MultipleContainers";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -241,9 +240,6 @@ export default function Home() {
                 )}
               </div>
             </div>
-              <div>
-                <MultipleContainers/>
-              </div>
           </div>
         </>
       )}

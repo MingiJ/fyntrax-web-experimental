@@ -10,7 +10,6 @@ import {
   DragOverlay,
   DropAnimation,
   getFirstCollision,
-  KeyboardSensor,
   MouseSensor,
   TouchSensor,
   Modifiers,
@@ -41,6 +40,7 @@ import { createRange } from './createRange';
 import StatsOverview from '@components/global/StatsOverview';
 import Info from '@components/global/Info';
 import { IoMdSpeedometer } from 'react-icons/io';
+import { Stats } from 'fs';
 
 export default {
   title: 'Presets/Sortable/Multiple Containers',
@@ -60,7 +60,7 @@ function DroppableContainer({
 }: ContainerProps & {
   disabled?: boolean;
   id: UniqueIdentifier;
-  items: UniqueIdentifier[];
+  items: React.Component[];
   style?: React.CSSProperties;
 }) {
   const {
@@ -117,7 +117,16 @@ const dropAnimation: DropAnimation = {
   }),
 };
 
-type Items = Record<UniqueIdentifier, React.Component[]>;
+type Items = Record<UniqueIdentifier,React.Component[]>;
+//interface Items {
+//  id: number;
+//  component: JSX.Element;
+//}
+//
+// Define the object with the A key
+interface ComponentCollection {
+  A: Items[];
+}
 
 interface Props {
   adjustScale?: boolean;
@@ -149,7 +158,7 @@ interface Props {
 
 export const TRASH_ID = 'void';
 const PLACEHOLDER_ID = 'placeholder';
-const empty: UniqueIdentifier[] = [];
+const empty: React.Component[] = [];
 
 export function MultipleContainers({
   adjustScale = false,
@@ -169,22 +178,17 @@ export function MultipleContainers({
   vertical = false,
   scrollable,
 }: Props) {
-  console.log( createRange(itemCount, (index) => `B${index + 1}`))
   const [items, setItems] = useState<Items>(
     () =>
       initialItems ?? {
-        A: [<StatsOverview />, <Info
-          icon={<IoMdSpeedometer />}
-          title="Coming soon."
-          description="Set a daily, monthly or yearly spending limit."
-        />],
+        A: [{id: 1, component: <StatsOverview/>}],
         B: createRange(itemCount, (index) => `B${index + 1}`),
       }
   );
   const [containers, setContainers] = useState(
     Object.keys(items) as UniqueIdentifier[]
   );
-  const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
+  const [activeId, setActiveId] = useState< | null>(null);
   const lastOverId = useRef<UniqueIdentifier | null>(null);
   const recentlyMovedToNewContainer = useRef(false);
   const isSortingContainer = activeId ? containers.includes(activeId) : false;

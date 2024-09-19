@@ -18,6 +18,7 @@ const config: Config = {
         primary: "#3038FF",
         "primary-alt": "#797FFF",
         dark: "#101010",
+        tertiary: "#A9ADFF",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
